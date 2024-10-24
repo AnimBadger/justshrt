@@ -1,0 +1,6 @@
+﻿services:
+  shrt:
+    image: shrt
+    build:
+      context: .
+      dockerfile: shrt/Dockerfile
