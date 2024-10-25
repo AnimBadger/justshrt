@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Stephen\\RiderProjects\\justshrt\\shrt\\shrt.csproj": {}
+    "C:\\Users\\Stephen\\source\\repos\\AnimBadger\\justshrt\\shrt\\shrt.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Stephen\\RiderProjects\\justshrt\\shrt\\shrt.csproj": {
+    "C:\\Users\\Stephen\\source\\repos\\AnimBadger\\justshrt\\shrt\\shrt.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Stephen\\RiderProjects\\justshrt\\shrt\\shrt.csproj",
+        "projectUniqueName": "C:\\Users\\Stephen\\source\\repos\\AnimBadger\\justshrt\\shrt\\shrt.csproj",
         "projectName": "shrt",
-        "projectPath": "C:\\Users\\Stephen\\RiderProjects\\justshrt\\shrt\\shrt.csproj",
+        "projectPath": "C:\\Users\\Stephen\\source\\repos\\AnimBadger\\justshrt\\shrt\\shrt.csproj",
         "packagesPath": "C:\\Users\\Stephen\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Stephen\\RiderProjects\\justshrt\\shrt\\obj\\",
+        "outputPath": "C:\\Users\\Stephen\\source\\repos\\AnimBadger\\justshrt\\shrt\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Stephen\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -46,13 +46,29 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
-              "version": "[9.0.0-rc.2, )"
+              "version": "[8.0.10, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[6.4.0, )"
+              "version": "[6.9.0, )"
             }
           },
           "imports": [
