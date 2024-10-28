@@ -21,6 +21,15 @@ public class UrlController : ControllerBase
     {
         return await _urlService.CreateShortUrlAsyn(url);
     }
-    
+    [HttpGet("{shortUrl}")] 
+    public async Task<IActionResult> RedirectUrl(string shortUrl)
+    {
+        var originalUrl = await _urlService.RedirectToOriginal(shortUrl);
+        if (originalUrl == null)
+        {
+            return NotFound("Url not found");
+        }
+        return Redirect(originalUrl);
+    }
 }
 

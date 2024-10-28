@@ -6,4 +6,5 @@ namespace shrt.repository;
 public interface IUrlRepository
 {
     Task AddUrlAsync(Url url);
+    Task<string?> OriginalUrlAsync(string url);
 }

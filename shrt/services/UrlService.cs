@@ -33,4 +33,11 @@ public class UrlService
         };
         return response;
     }
+
+    public async Task<string?> RedirectToOriginal(string shortUrl)
+    {
+        var originalUrl = await _urlRepository.OriginalUrlAsync(shortUrl);
+
+        return originalUrl;
+    }
 }

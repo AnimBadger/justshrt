@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
 using shrt.Db;
 using shrt.models;
 
@@ -19,4 +20,13 @@ public class UrlRepository : IUrlRepository
         await _context.SaveChangesAsync();
     }
 
+    public async Task<string?> OriginalUrlAsync(string shortUrl)
+    {
+        var url = await _context.Urls.
+            Where(u => u.ShortUrl == shortUrl)
+            .Select(u => u.LongUrl)
+            .FirstOrDefaultAsync();
+
+        return url;
+    }
 }
