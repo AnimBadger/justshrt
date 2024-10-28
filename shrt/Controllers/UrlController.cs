@@ -29,6 +29,11 @@ public class UrlController : ControllerBase
         {
             return NotFound("Url not found");
         }
+
+        if (!originalUrl.StartsWith("http://") && !originalUrl.StartsWith("https://"))
+        {
+            originalUrl = "https://" + originalUrl;
+        }
         return Redirect(originalUrl);
     }
 }
