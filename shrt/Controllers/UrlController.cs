@@ -17,9 +17,17 @@ public class UrlController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<UrlResponse> ShortenUrl(CreateUrlRequest url)
+    public async Task<IActionResult> ShortenUrl(CreateUrlRequest url)
     {
-        return await _urlService.CreateShortUrlAsyn(url);
+        var result = await _urlService.CreateShortUrlAsyn(url);
+
+        if (result == null) 
+        {
+            return BadRequest();
+        }
+
+        return Ok(result);
+
     }
     [HttpGet("{shortUrl}")] 
     public async Task<IActionResult> RedirectUrl(string shortUrl)
@@ -28,11 +36,6 @@ public class UrlController : ControllerBase
         if (originalUrl == null)
         {
             return NotFound("Url not found");
-        }
-
-        if (!originalUrl.StartsWith("http://") && !originalUrl.StartsWith("https://"))
-        {
-            originalUrl = "https://" + originalUrl;
         }
         return Redirect(originalUrl);
     }

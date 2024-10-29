@@ -22,11 +22,17 @@ public class UrlRepository : IUrlRepository
 
     public async Task<string?> OriginalUrlAsync(string shortUrl)
     {
-        var url = await _context.Urls.
-            Where(u => u.ShortUrl == shortUrl)
-            .Select(u => u.LongUrl)
-            .FirstOrDefaultAsync();
+        var url = await _context.Urls.SingleOrDefaultAsync(
+            u => u.ShortUrl == shortUrl);
 
-        return url;
+        if (url == null)
+        {
+            return null;
+        }
+
+        url.NumberOfClicks += 1;
+        await _context.SaveChangesAsync();
+
+        return url.LongUrl;
     }
 }

@@ -14,15 +14,28 @@ public class UrlService
         _urlRepository = urlRepository;
     }
 
-    public async Task<UrlResponse> CreateShortUrlAsyn(CreateUrlRequest url)
+    public async Task<UrlResponse?> CreateShortUrlAsyn(CreateUrlRequest url)
     {
+        string longUrl = url.Url;
+
+        if (!longUrl.StartsWith("http://") || !longUrl.StartsWith("https://"))
+        {
+            longUrl = "https://" + longUrl;
+        }
+
+        bool isValid = await IsValidUrlAysnc(longUrl);
+        if (!isValid) 
+        {
+            return null;
+        }
+
         Guid guid = Guid.NewGuid();
 
-        string shortUrlExtension = guid.ToString().Substring(guid.ToString().Length - 7);
+        string shortUrlExtension = guid.ToString()[^7..];
         var urlBody = new Url
         {
             ShortUrl = shortUrlExtension,
-            LongUrl = url.Url
+            LongUrl = longUrl
         };
 
         await _urlRepository.AddUrlAsync(urlBody);
@@ -39,5 +52,32 @@ public class UrlService
         var originalUrl = await _urlRepository.OriginalUrlAsync(shortUrl);
 
         return originalUrl;
+    }
+
+    public async Task<bool> IsValidUrlAysnc(string url)
+    {
+        if (!IsValidUrlFormat(url))
+        {
+            return false;
+        }
+         
+        using var httpclient = new HttpClient();
+
+        try
+        {
+            var response = await httpclient.SendAsync(new HttpRequestMessage(HttpMethod.Head, url));
+            return response.IsSuccessStatusCode;
+        }
+        catch 
+        {
+            return false;
+        }
+
+    }
+
+    public bool IsValidUrlFormat(string url)
+    {
+        return Uri.TryCreate(url, UriKind.Absolute, out Uri ? uriResult) &&
+            (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
     }
 }
