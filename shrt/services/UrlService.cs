@@ -80,4 +80,24 @@ public class UrlService
         return Uri.TryCreate(url, UriKind.Absolute, out Uri ? uriResult) &&
             (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
     }
+
+    public async Task<UrlAnalyticResponse?> UrlAnaltic(string shortUrl)
+    {
+        var urlData = await _urlRepository.UrLAnalticsAsync(shortUrl);
+        if (urlData == null)
+        {
+            return null;
+        }
+
+        UrlAnalyticResponse response = new();
+
+        response.DateCreated = urlData.CreatedAt;
+        response.NumberOfClicks = urlData.NumberOfClicks;
+        return response;
+    }
+
+    public async Task DeleteUrl(string url)
+    {
+        await _urlRepository.DeleteUrlAsync(url);
+    }
 }

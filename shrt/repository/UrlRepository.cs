@@ -16,8 +16,22 @@ public class UrlRepository : IUrlRepository
 
     public async Task AddUrlAsync(Url url)
     {
-       await _context.AddAsync(url);
+        await _context.AddAsync(url);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task DeleteUrlAsync(string shortUrl)
+    {
+        var urlData = await _context.Urls.FirstOrDefaultAsync(
+            url => url.ShortUrl == shortUrl);
+
+        if (urlData != null) 
+        {
+            _context.Urls.Remove(urlData);
+            await _context.SaveChangesAsync();
+        }
+
+        return;
     }
 
     public async Task<string?> OriginalUrlAsync(string shortUrl)
@@ -34,5 +48,17 @@ public class UrlRepository : IUrlRepository
         await _context.SaveChangesAsync();
 
         return url.LongUrl;
+    }
+
+    public async Task<Url?> UrLAnalticsAsync(string shortUrl)
+    {
+        var urlData = await _context.Urls.SingleOrDefaultAsync(
+            url => url.ShortUrl == shortUrl);
+
+        if (urlData == null)
+        {
+            return null;
+        }
+        return urlData;
     }
 }

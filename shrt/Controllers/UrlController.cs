@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using shrt.Dtos.requests;
-using shrt.Dtos.response;
-using shrt.models;
 using shrt.services;
 
 namespace shrt.Controllers;
@@ -21,7 +19,7 @@ public class UrlController : ControllerBase
     {
         var result = await _urlService.CreateShortUrlAsyn(url);
 
-        if (result == null) 
+        if (result == null)
         {
             return BadRequest();
         }
@@ -29,7 +27,7 @@ public class UrlController : ControllerBase
         return Ok(result);
 
     }
-    [HttpGet("{shortUrl}")] 
+    [HttpGet("{shortUrl}")]
     public async Task<IActionResult> RedirectUrl(string shortUrl)
     {
         var originalUrl = await _urlService.RedirectToOriginal(shortUrl);
@@ -38,6 +36,25 @@ public class UrlController : ControllerBase
             return NotFound("Url not found");
         }
         return Redirect(originalUrl);
+    }
+
+    [HttpGet("{shortUrl}/analytics")]
+    public async Task<IActionResult> UrlAnalytics(string shortUrl)
+    {
+        var urlAnalytic = await _urlService.UrlAnaltic(shortUrl);
+
+        if (urlAnalytic == null)
+        {
+            return NotFound("Analytics for url not found");
+        }
+        return Ok(urlAnalytic);
+    }
+
+    [HttpDelete("{shortUrl}")]
+    public async Task<IActionResult> DeleteUrl(string shortUrl)
+    {
+        await _urlService.DeleteUrl(shortUrl);
+        return NoContent();
     }
 }
 
