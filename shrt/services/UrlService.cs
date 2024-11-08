@@ -96,8 +96,14 @@ public class UrlService
         return response;
     }
 
-    public async Task DeleteUrl(string url)
+    public async Task<bool> DeleteUrl(string url)
     {
-        await _urlRepository.DeleteUrlAsync(url);
+        var isDeleted = await _urlRepository.DeleteUrlAsync(url);
+
+        if (isDeleted == true)
+        {
+            return true;
+        }
+        return false;
     }
 }

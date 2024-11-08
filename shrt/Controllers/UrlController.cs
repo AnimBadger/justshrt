@@ -53,8 +53,13 @@ public class UrlController : ControllerBase
     [HttpDelete("{shortUrl}")]
     public async Task<IActionResult> DeleteUrl(string shortUrl)
     {
-        await _urlService.DeleteUrl(shortUrl);
-        return NoContent();
+        var response = await _urlService.DeleteUrl(shortUrl);
+        if (response == true)
+        {
+            return NoContent();
+        }
+
+        return NotFound("Url not found");
     }
 }
 

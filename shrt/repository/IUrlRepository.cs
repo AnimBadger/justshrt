@@ -7,5 +7,5 @@ public interface IUrlRepository
     Task AddUrlAsync(Url url);
     Task<string?> OriginalUrlAsync(string url);
     Task<Url?> UrLAnalticsAsync(string url);
-    Task DeleteUrlAsync(string url);
+    Task<bool> DeleteUrlAsync(string url);
 }

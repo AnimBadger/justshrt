@@ -20,7 +20,7 @@ public class UrlRepository : IUrlRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteUrlAsync(string shortUrl)
+    public async Task<bool> DeleteUrlAsync(string shortUrl)
     {
         var urlData = await _context.Urls.FirstOrDefaultAsync(
             url => url.ShortUrl == shortUrl);
@@ -29,9 +29,10 @@ public class UrlRepository : IUrlRepository
         {
             _context.Urls.Remove(urlData);
             await _context.SaveChangesAsync();
+            return true;
         }
 
-        return;
+        return false;
     }
 
     public async Task<string?> OriginalUrlAsync(string shortUrl)
