@@ -35,21 +35,26 @@ public class UrlRepository : IUrlRepository
         return false;
     }
 
-    public async Task<string?> OriginalUrlAsync(string shortUrl)
+    public Task<string?> OriginalUrlAsync(string url)
     {
-        var url = await _context.Urls.SingleOrDefaultAsync(
-            u => u.ShortUrl == shortUrl);
-
-        if (url == null)
-        {
-            return null;
-        }
-
-        url.NumberOfClicks += 1;
-        await _context.SaveChangesAsync();
-
-        return url.LongUrl;
+        throw new NotImplementedException();
     }
+
+    //public async Task<string?> OriginalUrlAsync(string shortUrl)
+    //{
+    //    var url = await _context.Urls.SingleOrDefaultAsync(
+    //        u => u.ShortUrl == shortUrl);
+
+    //    if (url == null)
+    //    {
+    //        return null;
+    //    }
+
+    //    url.NumberOfClicks += 1;
+    //    await _context.SaveChangesAsync();
+
+    //    return url.LongUrl;
+    //}
 
     public async Task<Url?> UrLAnalticsAsync(string shortUrl)
     {

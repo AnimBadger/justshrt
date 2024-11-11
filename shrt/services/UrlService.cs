@@ -81,20 +81,19 @@ public class UrlService
             (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
     }
 
-    public async Task<UrlAnalyticResponse?> UrlAnaltic(string shortUrl)
-    {
-        var urlData = await _urlRepository.UrLAnalticsAsync(shortUrl);
-        if (urlData == null)
-        {
-            return null;
-        }
+    //public async Task<UrlAnalyticResponse?> UrlAnaltic(string shortUrl)
+    //{
+    //    var urlData = await _urlRepository.UrLAnalticsAsync(shortUrl);
+    //    if (urlData == null)
+    //    {
+    //        return null;
+    //    }
 
-        UrlAnalyticResponse response = new();
+    //    UrlAnalyticResponse response = new();
 
-        response.DateCreated = urlData.CreatedAt;
-        response.NumberOfClicks = urlData.NumberOfClicks;
-        return response;
-    }
+    //    response.DateCreated = urlData.CreatedAt;
+    //    return response;
+    //}
 
     public async Task<bool> DeleteUrl(string url)
     {
