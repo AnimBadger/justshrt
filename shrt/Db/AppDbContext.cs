@@ -4,7 +4,7 @@ using shrt.models;
 
 namespace shrt.Db;
 
-public class AppDbContext : IdentityDbContext
+public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -12,6 +12,7 @@ public class AppDbContext : IdentityDbContext
     }
 
     public DbSet<Url> Urls { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
