@@ -49,4 +49,4 @@ Migrations/
 # Visual Studio files (if applicable)
 .vscode/
 .vs/
-.env
+/.env
