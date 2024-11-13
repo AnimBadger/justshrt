@@ -94,7 +94,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapIdentityApi<IdentityUser>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
