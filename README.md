@@ -1,4 +1,4 @@
-This is a URL shortener application built using ASP.NET 8, PostgreSQL for database management, and Redis for caching frequently accessed data.
+This is a URL shortener application built using ASP.NET 8, PostgreSQL and MongoDb for database management, and Redis for caching frequently accessed data.
 
 ## Features
 
