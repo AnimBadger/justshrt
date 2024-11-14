@@ -1,0 +1,50 @@
+[
+  {
+    "ContainingType": "shrt.Controllers.UrlController",
+    "Method": "ShortenUrl",
+    "RelativePath": "api/Url",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "url",
+        "Type": "shrt.Dtos.requests.CreateUrlRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "shrt.Controllers.UrlController",
+    "Method": "RedirectUrl",
+    "RelativePath": "api/Url/{shortUrl}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "shortUrl",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "shrt.Controllers.UrlController",
+    "Method": "DeleteUrl",
+    "RelativePath": "api/Url/{shortUrl}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "shortUrl",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
