@@ -82,8 +82,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
     
 
-builder.Services.AddScoped<IUrlRepository, UrlRepository>();
-builder.Services.AddScoped<UrlService>();
+builder.Services.AddScoped<IUrlRepository, UrlService>();
 
 var app = builder.Build();
 

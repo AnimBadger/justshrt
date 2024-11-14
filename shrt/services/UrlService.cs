@@ -1,30 +1,31 @@
-﻿using shrt.Dtos.requests;
+﻿using shrt.Db;
+using shrt.Dtos.requests;
 using shrt.Dtos.response;
 using shrt.models;
 using shrt.repository;
 
 namespace shrt.services;
 
-public class UrlService
+public class UrlService : IUrlRepository
 {
-    private readonly IUrlRepository _urlRepository;
+    private readonly AppDbContext _appDbContext;
 
-    public UrlService(IUrlRepository urlRepository)
+    public UrlService(AppDbContext appDbContext)
     {
-        _urlRepository = urlRepository;
+        _appDbContext = appDbContext;
     }
 
-    public async Task<UrlResponse?> CreateShortUrlAsyn(CreateUrlRequest url)
+    public async Task<UrlResponse?> AddUrlAsync(CreateUrlRequest url)
     {
-        string longUrl = url.Url;
-
-        if (!longUrl.StartsWith("http://") || !longUrl.StartsWith("https://"))
+        var longUrl = url.Url;
+        // validate if url is a valid url
+        if (!longUrl.StartsWith("https://") || !longUrl.StartsWith("http://"))
         {
             longUrl = "https://" + longUrl;
         }
 
-        bool isValid = await IsValidUrlAysnc(longUrl);
-        if (!isValid) 
+        bool isValidUrl = await IsValidUrlAsync(longUrl);
+        if (!isValidUrl) 
         {
             return null;
         }
@@ -32,13 +33,16 @@ public class UrlService
         Guid guid = Guid.NewGuid();
 
         string shortUrlExtension = guid.ToString()[^7..];
+        
         var urlBody = new Url
         {
             ShortUrl = shortUrlExtension,
-            LongUrl = longUrl
+            LongUrl = longUrl,
+            UserId = url.UserId
         };
 
-        await _urlRepository.AddUrlAsync(urlBody);
+        await _appDbContext.Urls.AddAsync(urlBody);
+        await _appDbContext.SaveChangesAsync();
 
         var response = new UrlResponse
         {
@@ -47,62 +51,59 @@ public class UrlService
         return response;
     }
 
-    public async Task<string?> RedirectToOriginal(string shortUrl)
+    public bool IsvalidUrlFormat(string url)
     {
-        var originalUrl = await _urlRepository.OriginalUrlAsync(shortUrl);
-
-        return originalUrl;
-    }
-
-    public async Task<bool> IsValidUrlAysnc(string url)
-    {
-        if (!IsValidUrlFormat(url))
-        {
-            return false;
-        }
-         
-        using var httpclient = new HttpClient();
-
-        try
-        {
-            var response = await httpclient.SendAsync(new HttpRequestMessage(HttpMethod.Head, url));
-            return response.IsSuccessStatusCode;
-        }
-        catch 
-        {
-            return false;
-        }
-
-    }
-
-    public bool IsValidUrlFormat(string url)
-    {
-        return Uri.TryCreate(url, UriKind.Absolute, out Uri ? uriResult) &&
+        return Uri.TryCreate(url, UriKind.Absolute, out Uri ? uriResult) && 
             (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
     }
 
-    //public async Task<UrlAnalyticResponse?> UrlAnaltic(string shortUrl)
+    public async Task<bool> IsValidUrlAsync(string url)
+    {
+        if (!IsvalidUrlFormat(url))
+        {
+            return false;
+        }
+
+        using var httpClient = new HttpClient();
+
+        try
+        {
+            var response = await httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, url));
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    //public async Task<bool> DeleteUrlAsync(string shortUrl)
     //{
-    //    var urlData = await _urlRepository.UrLAnalticsAsync(shortUrl);
+    //    var urlData = await _appDbContext.Urls.FirstOrDefaultAsync(
+    //        url => url.ShortUrl == shortUrl);
+    //    if (urlData != null) 
+    //    {
+    //        _appDbContext.Urls.Remove(urlData);
+    //        await _appDbContext.SaveChangesAsync();
+    //        return true;
+    //    }
+    //    return false;
+    //}
+
+    //public async Task<Url?> OriginalUrlAsync(string shortUrl)
+    //{
+    //    var urlData = await _appDbContext.Urls.SingleOrDefaultAsync(
+    //        url => url.ShortUrl == shortUrl);
+
     //    if (urlData == null)
     //    {
     //        return null;
     //    }
-
-    //    UrlAnalyticResponse response = new();
-
-    //    response.DateCreated = urlData.CreatedAt;
-    //    return response;
+    //    return urlData;
     //}
 
-    public async Task<bool> DeleteUrl(string url)
-    {
-        var isDeleted = await _urlRepository.DeleteUrlAsync(url);
-
-        if (isDeleted == true)
-        {
-            return true;
-        }
-        return false;
-    }
+    //Task<string?> IUrlRepository.OriginalUrlAsync(string url)
+    //{
+    //    throw new NotImplementedException();
+    //}
 }

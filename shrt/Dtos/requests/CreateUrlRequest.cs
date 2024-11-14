@@ -1,5 +1,5 @@
 ﻿namespace shrt.Dtos.requests;
 
 public record CreateUrlRequest(
-    string Url
+    string Url, int UserId
     );
