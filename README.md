@@ -1,4 +1,4 @@
-This is a URL shortener application built using ASP.NET 8, PostgreSQL and MongoDb for database management, and Redis for caching frequently accessed data.
+This is a URL shortener application built using FastApi, PostgreSQL for database management, and Redis for caching frequently accessed data.
 
 ## Features
 
@@ -10,17 +10,16 @@ This is a URL shortener application built using ASP.NET 8, PostgreSQL and MongoD
 
 ## Technologies Used
 
-- **ASP.NET 8**: Web framework used for building the backend API.
+- **FastApi**: Web framework used for building the backend API.
 - **PostgreSQL**: Relational database for storing URL data.
 - **Redis**: Caching layer to enhance performance for high-traffic URLs.
-- **Entity Framework Core**: ORM for database interactions.
 
 ## Prerequisites
 
-- .NET 8 SDK
+- Python
 - PostgreSQL
 - Redis
-- IDE (e.g., JetBrains Rider or Visual Studio)
+- IDE (e.g., Pycharm or Visual Studio Code)
 - Docker (optional, for containerization)
 
 ## Setup Instructions
@@ -30,3 +29,4 @@ This is a URL shortener application built using ASP.NET 8, PostgreSQL and MongoD
    ```bash
    git clone https://github.com/AnimBadger/justshrt.git
    cd justshrt
+   ```
